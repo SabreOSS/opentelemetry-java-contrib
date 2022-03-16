@@ -93,6 +93,20 @@ class OtelHelper {
         return instrumentHelper
     }
 
+    /**
+     * Returns an updated @{link NGPExampleInstrumentHelper} associated with the provided {@link OtelHelper}, {@link MBeanHelper} and its specified
+     * attribute value(s). The parameters map to the NGPExampleInstrumentHelper constructor.
+     */
+    NGPExampleInstrumentHelper instrumentNGPExampleCompositeData(OtelHelper otelHelper, MBeanHelper mBeanHelper, String instrumentName, String description, String unit,Map<String, Closure> labelFuncs, Map<String, Map<String, Closure>> attributes) {
+        def instrumentHelper = new NGPExampleInstrumentHelper(otelHelper, mBeanHelper, instrumentName, description, unit, labelFuncs, attributes)
+        instrumentHelper.update()
+        return instrumentHelper
+    }
+
+    NGPExampleInstrumentHelper instrumentNGPExampleCompositeData(MBeanHelper mBeanHelper, String instrumentName, String description, String unit, String attribute) {
+      instrumentNGPExampleCompositeData(this, mBeanHelper, instrumentName, description, unit, [:] as Map<String, Closure>, [(attribute): [:] as Map<String, Closure>])
+    }
+
     InstrumentHelper instrument(MBeanHelper mBeanHelper, String instrumentName, String description, String unit, Map<String, Closure> labelFuncs, String attribute, Closure otelInstrument) {
       instrument(mBeanHelper, instrumentName, description, unit, labelFuncs, [(attribute): [:] as Map<String, Closure>], otelInstrument)
     }
